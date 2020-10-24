@@ -4,7 +4,7 @@ import random
 WIDTH = 800
 HEIGHT = 600
 
-Spawnpos = ()
+dotCount = 1
 
 WHITE = (255, 255, 255)
 RED = (0, 255, 0)
@@ -14,7 +14,7 @@ YELLOW = (255,255,0)
 
 draw = False
 
-gravity = 3
+gravity = 5
 
 game_display = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Sandbox")
@@ -22,12 +22,11 @@ clock = pygame.time.Clock()
 
 class Particle:
     def __init__(self, color):
-
         self.move_y = gravity
         self.size = 4
-        self.range = random.randrange(-10, 10)
-        self.x = 300
-        self.y = 300
+        p, q = random.randint(-10, 10), random.randint(5, 5)
+        self.range= (p, q)
+        self.position = pygame.mouse.get_pos() + self.range
         self.color = color
 
     def move(self):
@@ -36,29 +35,24 @@ class Particle:
         elif self.y > HEIGHT -2: self.y = HEIGHT - 2
 
 
-def draw_environment(dot):
+def draw_environment(dots):
     game_display.fill(CYAN)
-    while True:
-        if draw == True:
-            pygame.draw.circle(game_display, dot.color, Spawnpos, dot.size)
-            dot.move()
-        print(pygame.mouse.get_pos())
+    for dot in dots:
+        pygame.draw.circle(game_display, dot.color, dot.position, dot.size)
+        dot.move()
     pygame.display.update()
 
 
+
 def main():
-    sand_dot = [Particle(color = YELLOW)]
+    sand_dots = [Particle(color = YELLOW) for i in range(dotCount)]
     while True:
-        Spawnpos = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-
-            elif event.type == pygame.MOUSEBUTTONDOWN:  draw = True
-            else: draw = False
-        draw_environment(sand_dot)
-        clock.tick(20)
+        draw_environment(sand_dots)
+        clock.tick(60)
 
 if __name__ == "__main__":
     main()
