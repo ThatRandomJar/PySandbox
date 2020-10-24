@@ -1,4 +1,4 @@
 # PySandbox
-A fun sandbox I am making as a hobby :)
+A not so fun sandbox I am making as a hobby :)
 
 -----------------------under development------------------------
